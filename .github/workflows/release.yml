@@ -42,6 +42,22 @@ jobs:
       - name: Check package
         run: bun run check
 
+      - name: Verify package version
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ] && [ "${GITHUB_REF_TYPE}" = "branch" ] && [ "${GITHUB_REF_NAME}" != "main" ]; then
+            echo "Manual releases must run from main, not ${GITHUB_REF_NAME}"
+            exit 1
+          fi
+          if [ "${GITHUB_REF_TYPE}" = "tag" ] && [ "${GITHUB_REF_NAME}" != "v${VERSION}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match package version ${VERSION}"
+            exit 1
+          fi
+          if npm view "note@${VERSION}" version >/dev/null 2>&1; then
+            echo "note@${VERSION} already exists on npm"
+            exit 1
+          fi
+
       - name: OIDC preflight
         run: |
           test -n "$ACTIONS_ID_TOKEN_REQUEST_URL"

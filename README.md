@@ -4,10 +4,14 @@ Portable App Documents.
 
 Preview like a file. Open like a page. Run like an app.
 
+A PAD is a normal Markdown, HTML, or SVG file that you can preview as a document, open in a browser, and optionally run as a local program when you explicitly trust it.
+
 ## Create
 
+Try this first. It runs the beta generator and creates a PAD file in the current directory. Preview the created file before you run the PAD itself.
+
 ```sh
-bunx note some random thing
+bunx note@beta some random thing
 ```
 
 Creates:
@@ -19,8 +23,8 @@ YYYY-MM-DD-some-random-thing.pad.md
 Create other previewable web-native forms:
 
 ```sh
-bunx note --html checklist
-bunx note --svg diagram
+bunx note@beta --html checklist
+bunx note@beta --svg diagram
 ```
 
 ## Run
@@ -28,12 +32,20 @@ bunx note --svg diagram
 PAD files can include a shebang:
 
 ```sh
-#!/usr/bin/env -S bunx --bun note --pad
+#!/usr/bin/env -S bunx --bun note@beta --pad
 ```
 
-When executed, the document path is passed to `note --pad` and enters trusted program mode.
+When executed, the document path is passed to `note@beta --pad` and enters trusted program mode. Running a PAD crosses the boundary from "view this document" to "execute local code with Bun". Only run PADs you would trust as scripts.
+
+## Trust Ladder
+
+- Preview in Finder, Quick Look, or another static viewer: document only, no JavaScript.
+- Open in a browser: web code may run, subject to browser permissions.
+- Run in a shell: trusted local program mode; treat it like executing a script.
 
 Executable HTML PADs deliberately put the shebang before `<!doctype html>`. That tradeoff is the point: the same file can be previewed, opened, and run. Browsers tolerate the line as document text; PAD CSS/browser affordances can make that cost acceptable for documents that choose executable mode.
+
+HTML PADs may also load browser assets from a CDN, as the example does with jsDelivr. That is a browser trust boundary, separate from shell execution.
 
 Generated executable PADs include an SGML-style comment after the shebang to make that tradeoff explicit in source.
 

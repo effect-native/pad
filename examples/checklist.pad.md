@@ -1,5 +1,5 @@
-#!/usr/bin/env -S bunx --bun note --pad
-<!-- PAD: the shebang is intentional; it lets this document run as a trusted Bun program. -->
+#!/usr/bin/env -S bunx --bun note@beta --pad
+<!-- PAD: the shebang is intentional; only run this document if you trust it as a Bun script. -->
 # Checklist
 
 - [ ] Preview in Finder.
