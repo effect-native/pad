@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480">
+  <title>SVG PAD</title>
+  <rect width="900" height="480" fill="#08111f"/>
+  <text x="60" y="150" fill="#f8ffe8" font-family="system-ui, sans-serif" font-size="72" font-weight="700">SVG PAD</text>
+  <text x="60" y="235" fill="#d7ff9b" font-family="system-ui, sans-serif" font-size="30">Previewable as SVG. Runnable with bunx note --pad.</text>
+</svg>
