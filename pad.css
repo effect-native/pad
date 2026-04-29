@@ -1,0 +1,26 @@
+:root { color-scheme: light dark; }
+body {
+  margin: 0;
+  background: Canvas;
+  color: CanvasText;
+  font: 1rem/1.55 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+main {
+  box-sizing: border-box;
+  width: min(44rem, calc(100vw - 2rem));
+  margin: 0 auto;
+  padding: clamp(2rem, 8vw, 5rem) 0;
+}
+h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.5rem, 10vw, 5rem);
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+[data-pad-browser] {
+  margin-top: 2rem;
+  border: 1px solid color-mix(in srgb, CanvasText 24%, transparent);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: color-mix(in srgb, CanvasText 6%, Canvas);
+}
