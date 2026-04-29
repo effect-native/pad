@@ -58,4 +58,5 @@ jobs:
         run: |
           unset NODE_AUTH_TOKEN
           unset NPM_CONFIG_USERCONFIG
-          npm publish --provenance --access public
+          NPM_TAG="$(node -p "require('./package.json').version.includes('-') ? 'beta' : 'latest'")"
+          npm publish --provenance --access public --tag "$NPM_TAG"
