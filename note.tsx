@@ -1,9 +1,20 @@
 #!/usr/bin/env bun
-import { chmodSync, existsSync } from "node:fs";
-import { basename, resolve } from "node:path";
+import { chmodSync, existsSync, readFileSync } from "node:fs";
+import { basename, dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const VERSION = "0.4.0-beta.0";
 type Format = "md" | "html" | "svg";
+
+function readVersion() {
+  const packageJsonPath = resolve(dirname(fileURLToPath(import.meta.url)), "package.json");
+  const packageJson: unknown = JSON.parse(readFileSync(packageJsonPath, "utf8"));
+  if (!packageJson || typeof packageJson !== "object" || !("version" in packageJson) || typeof packageJson.version !== "string") {
+    throw new Error(`Missing version in ${packageJsonPath}`);
+  }
+  return packageJson.version;
+}
+
+const VERSION = readVersion();
 
 const help = `note creates Portable App Documents.
 
@@ -29,18 +40,19 @@ function localDate(date = new Date()) {
 function slugify(input: string) {
   return input
     .toLowerCase()
-    .replace(/['']/g, "")
+    .replace(/['\u2019]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/-+/g, "-")
     .replace(/^-|-$/g, "") || "untitled";
 }
 
 function looksLikePath(input: string) {
+  const knownFileExtension = /\.(?:pad\.)?(?:md|markdown|html?|svg|tsx?|jsx?|mjs|cjs|js|jsonc?|ya?ml|toml|txt|css|xml|pdf|png|jpe?g|gif|webp)$/i;
   return existsSync(input)
     || input.startsWith(".")
     || input.startsWith("~")
     || /[\\/]/.test(input)
-    || /\.[a-z0-9][a-z0-9_-]{0,9}$/i.test(basename(input));
+    || knownFileExtension.test(basename(input));
 }
 
 function escapeHtml(input: string) {
@@ -49,6 +61,7 @@ function escapeHtml(input: string) {
 
 function markdown(title: string) {
   return `#!/usr/bin/env -S bunx --bun note --pad
+<!-- PAD: the shebang is intentional; it lets this document run as a trusted Bun program. -->
 # ${title}
 
 - [ ] Write something worth keeping.
@@ -58,6 +71,7 @@ function markdown(title: string) {
 function html(title: string) {
   const safeTitle = escapeHtml(title);
   return `#!/usr/bin/env -S bunx --bun note --pad
+<!-- PAD: the shebang is intentional; it lets this document run as a trusted Bun program. -->
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -68,6 +82,7 @@ function html(title: string) {
 <main>
   <h1>${safeTitle}</h1>
   <p>Preview like a file. Open like a page. Run like an app.</p>
+  <p>Run trusted mode by executing this file.</p>
 </main>
 `;
 }
@@ -100,7 +115,7 @@ async function createPad(args: Array<string>) {
     else if (arg === "--html") format = "html";
     else if (arg === "--svg") format = "svg";
     else if (arg === "--format" || arg === "-f") {
-      const next = args[++i] as Format | undefined;
+      const next = args[++i];
       if (next !== "md" && next !== "html" && next !== "svg") die("--format must be md, html, or svg");
       format = next;
     } else if (arg === "--title") {

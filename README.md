@@ -33,6 +33,14 @@ PAD files can include a shebang:
 
 When executed, the document path is passed to `note --pad` and enters trusted program mode.
 
+Executable HTML PADs deliberately put the shebang before `<!doctype html>`. That tradeoff is the point: the same file can be previewed, opened, and run. Browsers tolerate the line as document text; PAD CSS/browser affordances can make that cost acceptable for documents that choose executable mode.
+
+Generated executable PADs include an SGML-style comment after the shebang to make that tradeoff explicit in source.
+
+```sh
+./checklist.pad.html
+```
+
 ## Why
 
 A PAD is a document that can become software when you trust it.

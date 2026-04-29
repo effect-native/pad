@@ -14,7 +14,7 @@
     "examples"
   ],
   "scripts": {
-    "check": "bun build ./note.tsx --target=bun --outfile=/tmp/note-check.js >/dev/null && node --check pad.mjs"
+    "check": "bun -e \"const result=await Bun.build({entrypoints:['./note.tsx'],target:'bun',write:false});if(!result.success)process.exit(1)\" && node --check pad.mjs"
   },
   "engines": {
     "bun": ">=1.3.0"
