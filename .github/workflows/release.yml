@@ -3,7 +3,6 @@ name: Release
 on:
   push:
     tags: ["v*"]
-  workflow_dispatch:
 
 permissions: {}
 
@@ -42,8 +41,8 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Check package
-        run: bun run check
+      - name: Verify release artifact
+        run: bun run verify:release
 
       - name: Verify package version
         run: |
@@ -79,3 +78,6 @@ jobs:
           unset NPM_CONFIG_USERCONFIG
           NPM_TAG="$(node -p "require('./package.json').version.includes('-') ? 'beta' : 'latest'")"
           npm publish --provenance --access public --tag "$NPM_TAG"
+
+      - name: Verify published package
+        run: bun run verify:published

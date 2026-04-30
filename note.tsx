@@ -13,6 +13,7 @@ type PadSocket = ServerWebSocket<unknown>;
 const HOST = "0.0.0.0";
 const DEFAULT_IDLE_SHUTDOWN_MS = 2_000;
 const DEFAULT_FIRST_CLIENT_TIMEOUT_MS = 5 * 60_000;
+const PAD_ASSET_BASE = ".";
 
 function readVersion() {
   const packageJsonPath = resolve(dirname(fileURLToPath(import.meta.url)), "package.json");
@@ -81,7 +82,7 @@ function packageRoot() {
 }
 
 function packageAssetUrl(asset: string) {
-  return `https://cdn.jsdelivr.net/npm/note@${VERSION}/${asset}`;
+  return `${PAD_ASSET_BASE}/${asset}`;
 }
 
 function contentTypeFor(pathname: string) {
@@ -167,7 +168,7 @@ function renderEditorHtml(config: {
 }
 
 function markdown(title: string) {
-  return `#!/usr/bin/env -S bunx --bun note@beta --pad
+  return `#!/usr/bin/env -S bun ./note.tsx --pad
 <!-- PAD: the shebang is intentional; only run this document if you trust it as a Bun script. -->
 # ${title}
 
@@ -177,7 +178,7 @@ function markdown(title: string) {
 
 function html(title: string) {
   const safeTitle = escapeHtml(title);
-  return `#!/usr/bin/env -S bunx --bun note@beta --pad
+  return `#!/usr/bin/env -S bun ./note.tsx --pad
 <!-- PAD: the shebang is intentional; only run this document if you trust it as a Bun script. -->
 <!doctype html>
 <meta charset="utf-8">
@@ -200,7 +201,7 @@ function svg(title: string) {
   <title>${safeTitle}</title>
   <rect width="900" height="480" fill="#08111f"/>
   <text x="60" y="150" fill="#f8ffe8" font-family="system-ui, sans-serif" font-size="64" font-weight="700">${safeTitle}</text>
-  <text x="60" y="230" fill="#d7ff9b" font-family="system-ui, sans-serif" font-size="28">Preview like a file. Open like a page. Run with: bunx note@beta --pad</text>
+  <text x="60" y="230" fill="#d7ff9b" font-family="system-ui, sans-serif" font-size="28">Preview like a file. Open like a page. Run with: bun ./note.tsx --pad</text>
 </svg>
 `;
 }
@@ -236,7 +237,7 @@ async function createPad(args: Array<string>) {
 
   const title = titleParts.join(" ").trim() || "untitled";
   if (!forcedTitle && looksLikePath(title)) {
-    die(`That looks like a file path.\n\nRun a PAD with:\n  bunx note@beta --pad ${title}\n\nForce a literal title with:\n  bunx note@beta --title ${JSON.stringify(title)}`);
+    die(`That looks like a file path.\n\nRun a PAD with:\n  bun ./note.tsx --pad ${title}\n\nForce a literal title with:\n  bun ./note.tsx --title ${JSON.stringify(title)}`);
   }
 
   const file = `${localDate()}-${slugify(title)}.pad.${format}`;
