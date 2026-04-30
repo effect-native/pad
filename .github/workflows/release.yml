@@ -39,6 +39,9 @@ jobs:
           echo "npm ${NPM_VERSION}"
           node -e "const v=process.argv[1].split('.').map(Number); if (!(v[0] > 11 || (v[0] === 11 && v[1] >= 5))) process.exit(1)" "$NPM_VERSION"
 
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
       - name: Check package
         run: bun run check
 

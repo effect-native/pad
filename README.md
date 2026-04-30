@@ -53,6 +53,10 @@ Generated executable PADs include an SGML-style comment after the shebang to mak
 ./checklist.pad.html
 ```
 
+Trusted run mode starts a Bun editor server on `0.0.0.0` with an open port. It prints a local URL, a tokenized `http://$(hostname).local:PORT` phone/iPad URL, and a QR code you can scan. Browser clients sync edits over WebSocket; the server shuts down shortly after the last browser client disconnects.
+
+The served editor can save back to the original file. The browser asset `pad.mjs` also offers static browser editing affordances: download a changed copy anywhere, or in Chrome/Edge pick the file and save in place with the File System Access API.
+
 ## Why
 
 A PAD is a document that can become software when you trust it.
