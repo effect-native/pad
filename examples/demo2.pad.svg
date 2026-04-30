@@ -2,5 +2,5 @@
   <title>SVG PAD</title>
   <rect width="900" height="480" fill="#08111f"/>
   <text x="60" y="150" fill="#f8ffe8" font-family="system-ui, sans-serif" font-size="72" font-weight="700">SVG PAD</text>
-  <text x="60" y="235" fill="#d7ff9b" font-family="system-ui, sans-serif" font-size="30">Previewable as SVG. Pass to bunx note@beta --pad only when you trust it.</text>
+  <text x="60" y="235" fill="#d7ff9b" font-family="system-ui, sans-serif" font-size="30">Previewable as SVG. Pass to bunx --bun -p https://github.com/effect-native/pad/archive/refs/heads/feature/release-verification-gates.tar.gz note --pad only when you trust it.</text>
 </svg>

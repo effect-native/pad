@@ -11,7 +11,7 @@ A PAD is a normal Markdown, HTML, or SVG file that you can preview as a document
 Try this first. It runs the beta generator and creates a PAD file in the current directory. Preview the created file before you run the PAD itself.
 
 ```sh
-bunx note@beta some random thing
+bunx --bun -p https://github.com/effect-native/pad/archive/refs/heads/feature/release-verification-gates.tar.gz note some random thing
 ```
 
 Creates:
@@ -23,8 +23,8 @@ YYYY-MM-DD-some-random-thing.pad.md
 Create other previewable web-native forms:
 
 ```sh
-bunx note@beta --html checklist
-bunx note@beta --svg diagram
+bunx --bun -p https://github.com/effect-native/pad/archive/refs/heads/feature/release-verification-gates.tar.gz note --html checklist
+bunx --bun -p https://github.com/effect-native/pad/archive/refs/heads/feature/release-verification-gates.tar.gz note --svg diagram
 ```
 
 ## Run
@@ -32,10 +32,10 @@ bunx note@beta --svg diagram
 PAD files can include a shebang:
 
 ```sh
-#!/usr/bin/env -S bunx --bun note@beta --pad
+#!/usr/bin/env -S bunx --bun -p https://github.com/effect-native/pad/archive/refs/heads/feature/release-verification-gates.tar.gz note --pad
 ```
 
-When executed, the document path is passed to `note@beta --pad` and enters trusted program mode. Running a PAD crosses the boundary from "view this document" to "execute local code with Bun". Only run PADs you would trust as scripts.
+When executed, the document path is passed to `bunx --bun -p https://github.com/effect-native/pad/archive/refs/heads/feature/release-verification-gates.tar.gz note --pad` and enters trusted program mode. Running a PAD crosses the boundary from "view this document" to "execute local code with Bun". Only run PADs you would trust as scripts.
 
 ## Trust Ladder
 
